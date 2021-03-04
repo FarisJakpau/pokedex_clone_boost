@@ -1,9 +1,10 @@
-package com.faris.pokedex_clone
+package com.faris.pokedex_clone.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.faris.pokedex_clone.R
 import com.faris.pokedex_clone.viewModel.MainActivityViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 

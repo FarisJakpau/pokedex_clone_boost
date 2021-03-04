@@ -5,12 +5,7 @@ package com.faris.pokedex_clone.network.model.response
  *
  **/
 data class AbilityResponseModel(
-        val ability: AbilityModel?,
+        val ability: BaseResponseModel?,
         val is_hidden: Boolean?,
         val slot: Int?
-)
-
-data class AbilityModel(
-        val name: String?,
-        val url: String?
 )
