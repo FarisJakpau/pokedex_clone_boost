@@ -1,6 +1,7 @@
 package com.faris.pokedex_clone.network
 
 import com.faris.pokedex_clone.BuildConfig
+import com.faris.pokedex_clone.util.Const
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -35,7 +36,7 @@ interface ApiClient {
 
             val client = okBuilder.build()
             return Retrofit.Builder()
-                    .baseUrl("https://pokeapi.co/api/v2/")
+                .baseUrl(Const.API_URL)
                     .client(client)
                     .addConverterFactory(MoshiConverterFactory.create())
                     .addCallAdapterFactory(CoroutineCallAdapterFactory())

@@ -1,11 +1,13 @@
 package com.faris.pokedex_clone.network.api
 
 import com.faris.pokedex_clone.network.ApiClient
+import com.faris.pokedex_clone.network.model.response.PokemonListResponseModel
 import com.faris.pokedex_clone.network.model.response.PokemonResponseModel
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 /**
  * Created by FarisJakpau on 4/03/2021
@@ -22,4 +24,9 @@ interface PokemonAPI {
     @GET("pokemon/{pokemon_id}")
     fun getPokemon(@Path(value = "pokemon_id") pokemon_id: String?)
             : Deferred<Response<PokemonResponseModel>>
+
+    @GET("pokemon")
+    fun getPokemonList(
+        @Query("limit") limit: String?
+    ): Deferred<Response<PokemonListResponseModel>>
 }
