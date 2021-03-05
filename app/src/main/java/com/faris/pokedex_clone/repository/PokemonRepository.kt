@@ -1,6 +1,7 @@
 package com.faris.pokedex_clone.repository
 
 import com.faris.pokedex_clone.base.BaseRepository
+import com.faris.pokedex_clone.network.ApiResultHandler
 import com.faris.pokedex_clone.network.api.PokemonAPI
 import com.faris.pokedex_clone.network.model.response.PokemonListResponseModel
 import com.faris.pokedex_clone.network.model.response.PokemonResponseModel
@@ -11,17 +12,17 @@ import com.faris.pokedex_clone.network.model.response.PokemonResponseModel
  **/
 class PokemonRepository(private val api: PokemonAPI) : BaseRepository() {
 
-    suspend fun getPokemon(pokemonId: String?): PokemonResponseModel? {
+    suspend fun getPokemon(pokemonId: String?): ApiResultHandler<PokemonResponseModel> {
         return safeApiCall(
-            call = { api.getPokemon(pokemonId).await() },
-            errorMessage = "error"
+                call = { api.getPokemon(pokemonId).await() },
+                errorMessage = "error"
         )
     }
 
-    suspend fun getPokemonList(limit: String): PokemonListResponseModel? {
+    suspend fun getPokemonList(limit: String, offset: String): ApiResultHandler<PokemonListResponseModel> {
         return safeApiCall(
-            call = { api.getPokemonList(limit).await() },
-            errorMessage = ""
+                call = { api.getPokemonList(limit, offset).await() },
+                errorMessage = "error Pokemon List"
         )
     }
 }

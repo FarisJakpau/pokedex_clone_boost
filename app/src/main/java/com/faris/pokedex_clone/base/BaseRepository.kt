@@ -1,6 +1,5 @@
 package com.faris.pokedex_clone.base
 
-import android.util.Log
 import com.faris.pokedex_clone.network.ApiResultHandler
 import retrofit2.Response
 
@@ -12,22 +11,8 @@ open class BaseRepository {
 
     private val TAG = BaseRepository::class.java.simpleName
 
-    suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>, errorMessage: String): T? {
-
-        val apiResultHandler: ApiResultHandler<T> = safeApiResult(call, errorMessage)
-        var data: T? = null
-
-        when (apiResultHandler) {
-            is ApiResultHandler.Success -> {
-                data = apiResultHandler.data
-            }
-
-            is ApiResultHandler.Error -> {
-                Log.e(TAG, "${apiResultHandler.exception}")
-            }
-        }
-
-        return data
+    suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>, errorMessage: String): ApiResultHandler<T> {
+        return safeApiResult(call, errorMessage)
     }
 
     private suspend fun <T : Any> safeApiResult(

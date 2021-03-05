@@ -27,6 +27,7 @@ interface PokemonAPI {
 
     @GET("pokemon")
     fun getPokemonList(
-        @Query("limit") limit: String?
+            @Query("limit") limit: String?,
+            @Query("offset") offset: String?
     ): Deferred<Response<PokemonListResponseModel>>
 }

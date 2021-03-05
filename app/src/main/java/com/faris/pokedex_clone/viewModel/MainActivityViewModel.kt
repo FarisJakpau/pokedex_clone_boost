@@ -3,6 +3,7 @@ package com.faris.pokedex_clone.viewModel
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.faris.pokedex_clone.base.BaseViewModel
+import com.faris.pokedex_clone.network.ApiResultHandler
 import com.faris.pokedex_clone.network.api.PokemonAPI
 import com.faris.pokedex_clone.network.model.response.PokemonListResponseModel
 import com.faris.pokedex_clone.repository.PokemonRepository
@@ -14,20 +15,19 @@ import kotlinx.coroutines.launch
  **/
 class MainActivityViewModel(application: Application) : BaseViewModel(application) {
 
-    val pokemonListResponse: MutableLiveData<PokemonListResponseModel>? = MutableLiveData()
+    val pokemonListResponse: MutableLiveData<PokemonListResponseModel> = MutableLiveData()
     private val pokemonRepo: PokemonRepository = PokemonRepository(PokemonAPI.instance)
 
-    fun getPokemon(pokemonId: String?) {
+    fun getPokemonList(limit: Int, offset: Int) {
         scope.launch(exceptionHandler) {
-            val result = pokemonRepo.getPokemon(pokemonId)
-            //pokemonListResponse?.postValue(result)
-        }
-    }
+            when (val result = pokemonRepo.getPokemonList(limit.toString(), offset.toString())) {
+                is ApiResultHandler.Success -> {
+                    pokemonListResponse.postValue(result.data)
+                }
+                is ApiResultHandler.Error -> {
 
-    fun getPokemonList(limit: Int) {
-        scope.launch(exceptionHandler) {
-            val result = pokemonRepo.getPokemonList(limit.toString())
-            pokemonListResponse?.postValue(result)
+                }
+            }
         }
     }
 }

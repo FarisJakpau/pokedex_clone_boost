@@ -9,8 +9,8 @@ import com.faris.pokedex_clone.viewHolder.PokemonViewHolder
  * Created by FarisJakpau on 4/03/2021
  *
  **/
-class PokemonListAdapter(var pokemonList: List<BaseResponseModel>?) :
-    RecyclerView.Adapter<PokemonViewHolder>() {
+class PokemonListAdapter(var pokemonList: ArrayList<BaseResponseModel>?) :
+        RecyclerView.Adapter<PokemonViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
         return PokemonViewHolder.create(parent)
     }
@@ -21,5 +21,13 @@ class PokemonListAdapter(var pokemonList: List<BaseResponseModel>?) :
 
     override fun getItemCount(): Int {
         return pokemonList?.size ?: 0
+    }
+
+    fun updateList(pokemonList: List<BaseResponseModel>?) {
+        val tempSize = this.pokemonList?.size ?: 0
+        pokemonList?.let {
+            this.pokemonList?.addAll(it)
+            notifyItemRangeChanged(tempSize, tempSize + it.size)
+        }
     }
 }

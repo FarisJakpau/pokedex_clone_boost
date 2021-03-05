@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.faris.pokedex_clone.R
 import com.faris.pokedex_clone.databinding.ItemPokemonBinding
 import com.faris.pokedex_clone.network.model.response.BaseResponseModel
-import com.faris.pokedex_clone.util.Const
+import com.faris.pokedex_clone.util.getImageLink
 import com.faris.pokedex_clone.util.getPokemonId
 
 /**
@@ -31,7 +31,7 @@ class PokemonViewHolder(private val itemPokemonBinding: ItemPokemonBinding) :
         itemPokemonBinding.name = baseResponseModel.name
 
         Glide.with(itemView.context)
-            .load(Const.BASE_API_IMAGE_URL + baseResponseModel.url.getPokemonId() + ".png")
+                .load(getImageLink(baseResponseModel.url.getPokemonId()))
             .into(itemPokemonBinding.ivPokemon)
 
     }

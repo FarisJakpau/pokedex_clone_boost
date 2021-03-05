@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.faris.pokedex_clone.R
 import com.faris.pokedex_clone.adapter.PokemonListAdapter
 import com.faris.pokedex_clone.viewModel.MainActivityViewModel
@@ -13,17 +14,45 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private var viewModel: MainActivityViewModel? = null
+    private var isLoading = false
+    private var offset = 0
+    private val LIMIT_POKEMON = 20
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val adapter = PokemonListAdapter(ArrayList())
+        val layoutManager = GridLayoutManager(this, 3)
+        rv_pokemon.layoutManager = layoutManager
+        rv_pokemon.adapter = adapter
 
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
-        viewModel?.getPokemonList(20)
+        viewModel?.getPokemonList(LIMIT_POKEMON, offset)
         viewModel?.pokemonListResponse?.observe(this, Observer {
-            val adapter = PokemonListAdapter(it.results)
-            rv_pokemon.layoutManager = GridLayoutManager(this, 3)
-            rv_pokemon.adapter = adapter
+            isLoading = true
+            adapter.updateList(it.results)
+        })
+
+        isLoading = true
+
+        rv_pokemon.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (dy > 0) {
+                    val visibleItemCount = layoutManager.childCount
+                    val totalItemCount = layoutManager.itemCount
+                    val pastVisibleItem = layoutManager.findFirstVisibleItemPosition()
+
+                    if (isLoading) {
+                        if ((visibleItemCount + pastVisibleItem) >= totalItemCount) {
+                            isLoading = false
+                            offset += LIMIT_POKEMON
+                            viewModel?.getPokemonList(LIMIT_POKEMON, offset)
+                        }
+                    }
+                }
+            }
         })
     }
 }
