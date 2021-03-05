@@ -1,6 +1,7 @@
 package com.faris.pokedex_clone.ui
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,11 +17,12 @@ class MainActivity : AppCompatActivity() {
     private var viewModel: MainActivityViewModel? = null
     private var isLoading = false
     private var offset = 0
-    private val LIMIT_POKEMON = 20
+    private val LIMIT_POKEMON = 21
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         val adapter = PokemonListAdapter(ArrayList())
         val layoutManager = GridLayoutManager(this, 3)
         rv_pokemon.layoutManager = layoutManager
@@ -34,6 +36,10 @@ class MainActivity : AppCompatActivity() {
         })
 
         isLoading = true
+
+        adapter.evenHolder.onClick.observe(this, Observer {
+            Toast.makeText(this, "${it.name}", Toast.LENGTH_LONG).show()
+        })
 
         rv_pokemon.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

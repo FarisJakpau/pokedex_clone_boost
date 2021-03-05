@@ -2,16 +2,17 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
         <variable
             name="name"
             type="String" />
     </data>
 
     <LinearLayout
+        android:id="@+id/ll_root"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:foreground="?android:attr/selectableItemBackground"
         android:orientation="vertical">
 
         <ImageView

@@ -3,6 +3,7 @@ package com.faris.pokedex_clone.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.faris.pokedex_clone.network.model.response.BaseResponseModel
+import com.faris.pokedex_clone.util.SingleLiveEvent
 import com.faris.pokedex_clone.viewHolder.PokemonViewHolder
 
 /**
@@ -11,12 +12,15 @@ import com.faris.pokedex_clone.viewHolder.PokemonViewHolder
  **/
 class PokemonListAdapter(var pokemonList: ArrayList<BaseResponseModel>?) :
         RecyclerView.Adapter<PokemonViewHolder>() {
+
+    val evenHolder = EventHolder()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
         return PokemonViewHolder.create(parent)
     }
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
-        pokemonList?.get(position)?.let { holder.bindTo(it) }
+        pokemonList?.get(position)?.let { holder.bindTo(it, evenHolder) }
     }
 
     override fun getItemCount(): Int {
@@ -29,5 +33,9 @@ class PokemonListAdapter(var pokemonList: ArrayList<BaseResponseModel>?) :
             this.pokemonList?.addAll(it)
             notifyItemRangeChanged(tempSize, tempSize + it.size)
         }
+    }
+
+    class EventHolder {
+        val onClick: SingleLiveEvent<BaseResponseModel> = SingleLiveEvent()
     }
 }
