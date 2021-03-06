@@ -1,6 +1,7 @@
 package com.faris.pokedex_clone.network.api
 
 import com.faris.pokedex_clone.network.ApiClient
+import com.faris.pokedex_clone.network.model.response.AbilityDetailResponseModel
 import com.faris.pokedex_clone.network.model.response.PokemonListResponseModel
 import com.faris.pokedex_clone.network.model.response.PokemonResponseModel
 import kotlinx.coroutines.Deferred
@@ -27,7 +28,11 @@ interface PokemonAPI {
 
     @GET("pokemon")
     fun getPokemonList(
-            @Query("limit") limit: String?,
-            @Query("offset") offset: String?
+        @Query("limit") limit: String?,
+        @Query("offset") offset: String?
     ): Deferred<Response<PokemonListResponseModel>>
+
+    @GET("ability/{ability_id}/")
+    fun getPokemonAbility(@Path(value = "ability_id") ability_id: String?)
+            : Deferred<Response<AbilityDetailResponseModel>>
 }

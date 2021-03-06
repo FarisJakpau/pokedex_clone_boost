@@ -9,3 +9,10 @@ data class AbilityResponseModel(
         val is_hidden: Boolean?,
         val slot: Int?
 )
+
+data class AbilityDetailResponseModel(
+        val effect_changes: List<EffectEntriesMainResponseModel>?,
+        val effect_entries: List<EffectEntriesResponseModel>?,
+        val flavor_text_entries: List<FlavourTextEntriesResponseModel>?,
+        val name: String?
+)

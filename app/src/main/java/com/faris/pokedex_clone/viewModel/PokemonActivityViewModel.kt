@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.faris.pokedex_clone.base.BaseViewModel
 import com.faris.pokedex_clone.network.ApiResultHandler
 import com.faris.pokedex_clone.network.api.PokemonAPI
+import com.faris.pokedex_clone.network.model.response.AbilityDetailResponseModel
 import com.faris.pokedex_clone.network.model.response.PokemonResponseModel
 import com.faris.pokedex_clone.repository.PokemonRepository
 import kotlinx.coroutines.launch
@@ -17,6 +18,7 @@ import kotlinx.coroutines.launch
 class PokemonActivityViewModel (application:Application) : BaseViewModel(application) {
     private val pokemonRepo = PokemonRepository(PokemonAPI.instance)
     val pokemonResponse: MutableLiveData<PokemonResponseModel> = MutableLiveData()
+    val pokemonAbilityResponse: MutableLiveData<AbilityDetailResponseModel> = MutableLiveData()
 
     fun getPokemon(pokemonId: String) {
         scope.launch(exceptionHandler) {
@@ -25,6 +27,19 @@ class PokemonActivityViewModel (application:Application) : BaseViewModel(applica
                     pokemonResponse.postValue(result.data)
                 }
 
+                is ApiResultHandler.Error -> {
+
+                }
+            }
+        }
+    }
+
+    fun getPokemonAbility(abilityId: String?) {
+        scope.launch(exceptionHandler) {
+            when (val result = pokemonRepo.getPokemonAbility(abilityId)) {
+                is ApiResultHandler.Success -> {
+                    pokemonAbilityResponse.postValue(result.data)
+                }
                 is ApiResultHandler.Error -> {
 
                 }

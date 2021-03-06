@@ -5,7 +5,6 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -22,6 +21,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.activity_pokemon.*
 import kotlinx.android.synthetic.main.activity_pokemon.tv_name
 import kotlinx.android.synthetic.main.item_ability_description.*
+import kotlinx.android.synthetic.main.item_ability_description.view.*
 
 /**
  * Created by farisjakpau on 06/03/2021.
@@ -58,12 +58,33 @@ class PokemonActivity : AppCompatActivity() {
             adapter.updateData(it.abilities as ArrayList<AbilityResponseModel>)
             rv_abilities.layoutManager = LinearLayoutManager(this)
             rv_abilities.adapter = adapter
-
         })
 
         adapter.evenHolder.onClick.observe(this, Observer {
             bottomSheetBehaviour?.state = BottomSheetBehavior.STATE_EXPANDED
-            Toast.makeText(this, "${it.ability?.name}", Toast.LENGTH_LONG).show()
+            viewModel?.getPokemonAbility(it?.ability?.name)
+        })
+
+        viewModel?.pokemonAbilityResponse?.observe(this, Observer {
+            bottom_sheet.tv_name.text = it.name
+
+            it.flavor_text_entries?.forEach { flavourText ->
+                if (flavourText.language?.name == "en") {
+                    bottom_sheet.tv_description.text = flavourText.flavor_text
+                    return@forEach
+                }
+            }
+
+            it.effect_entries?.forEach { effectEntries ->
+                if (effectEntries.language?.name == "en") {
+                    bottom_sheet.tv_effect.text = effectEntries.effect
+                    bottom_sheet.tv_depth_effect.text = effectEntries.short_effect
+                    return@forEach
+                }
+            }
+
+            /*bottom_sheet.tv_effect.text = it.effect_entries?.get(0)?.effect
+            bottom_sheet.tv_depth_effect.text = it.effect_entries?.get(0)?.short_effect*/
         })
     }
 
