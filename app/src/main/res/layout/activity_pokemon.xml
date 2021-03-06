@@ -13,12 +13,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <Button
+                android:id="@+id/btn_favourite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FAVOURITE" />
+
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="25sp"
-                android:gravity="center"/>
+                android:gravity="center" />
 
             <ImageView
                 android:id="@+id/iv_pokemon"

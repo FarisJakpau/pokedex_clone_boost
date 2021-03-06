@@ -5,6 +5,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.faris.pokedex_clone.R
 import com.faris.pokedex_clone.adapter.AbilitiesListAdapter
 import com.faris.pokedex_clone.enum.PokemonTypeEnum
+import com.faris.pokedex_clone.localDb.model.FavouriteModel
 import com.faris.pokedex_clone.network.model.response.AbilityResponseModel
 import com.faris.pokedex_clone.util.Const.Companion.POKEMON_ID
 import com.faris.pokedex_clone.util.getImageLink
@@ -22,6 +24,9 @@ import kotlinx.android.synthetic.main.activity_pokemon.*
 import kotlinx.android.synthetic.main.activity_pokemon.tv_name
 import kotlinx.android.synthetic.main.item_ability_description.*
 import kotlinx.android.synthetic.main.item_ability_description.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * Created by farisjakpau on 06/03/2021.
@@ -32,16 +37,20 @@ class PokemonActivity : AppCompatActivity() {
 
     private var viewModel: PokemonActivityViewModel? = null
     private var bottomSheetBehaviour: BottomSheetBehavior<LinearLayout>? = null
+    private var pokemonName = ""
+    private var pokemonId: String? = null
+    private var favouriteList: ArrayList<FavouriteModel>? = ArrayList()
+    private var isFavourite = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pokemon)
 
-        val pokemonId = intent.extras?.getString(POKEMON_ID)
+        pokemonId = intent.extras?.getString(POKEMON_ID)
         val adapter = AbilitiesListAdapter(ArrayList())
         bottomSheetBehaviour = BottomSheetBehavior.from(bottom_sheet)
 
-        viewModel = ViewModelProviders.of(this).get(PokemonActivityViewModel::class.java)
+        viewModel = ViewModelProviders.of(this)[PokemonActivityViewModel::class.java]
 
         pokemonId?.let {
             viewModel?.getPokemon(it)
@@ -50,6 +59,7 @@ class PokemonActivity : AppCompatActivity() {
         viewModel?.pokemonResponse?.observe(this, Observer {
             iv_pokemon.setImageUrl(getImageLink(it.id.toString()))
             tv_name.text = it.species?.name
+            pokemonName = it.name.toString()
 
             val pokemonType = PokemonTypeEnum.values()
                 .find { enum -> enum.type == it?.types?.get(0)?.type?.name.toString() }
@@ -59,6 +69,8 @@ class PokemonActivity : AppCompatActivity() {
             rv_abilities.layoutManager = LinearLayoutManager(this)
             rv_abilities.adapter = adapter
         })
+
+        getAllFavouritePokemon()
 
         adapter.evenHolder.onClick.observe(this, Observer {
             bottomSheetBehaviour?.state = BottomSheetBehavior.STATE_EXPANDED
@@ -82,10 +94,44 @@ class PokemonActivity : AppCompatActivity() {
                     return@forEach
                 }
             }
-
-            /*bottom_sheet.tv_effect.text = it.effect_entries?.get(0)?.effect
-            bottom_sheet.tv_depth_effect.text = it.effect_entries?.get(0)?.short_effect*/
         })
+
+        btn_favourite.setOnClickListener {
+            if (isFavourite) deleteFavourite(FavouriteModel(pokemonId?.toInt(), pokemonName))
+            else insertFavourite(FavouriteModel(pokemonId?.toInt(), pokemonName))
+        }
+
+    }
+
+    private fun insertFavourite(favouriteModel: FavouriteModel) {
+        CoroutineScope(Dispatchers.Main).launch {
+            viewModel?.insertFavourite(favouriteModel).also {
+
+            }
+        }
+    }
+
+    private fun deleteFavourite(favouriteModel: FavouriteModel) {
+        CoroutineScope(Dispatchers.Main).launch {
+            viewModel?.deleteFavourite(favouriteModel).also {
+                getAllFavouritePokemon()
+            }
+        }
+    }
+
+    private fun getAllFavouritePokemon() {
+        CoroutineScope(Dispatchers.Main).launch {
+            viewModel?.getFavouritePokemon()?.observe(this@PokemonActivity, Observer { it ->
+                favouriteList?.clear()
+                favouriteList?.addAll(it)
+
+                isFavourite = favouriteList?.any { it.id == pokemonId?.toInt() } ?: false
+                if (isFavourite) {
+                    btn_favourite.text = "UNFav"
+                } else btn_favourite.text = "FAVOURITE"
+                Toast.makeText(this@PokemonActivity, "$isFavourite", Toast.LENGTH_LONG).show()
+            })
+        }
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {

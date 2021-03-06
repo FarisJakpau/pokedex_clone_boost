@@ -2,7 +2,6 @@ package com.faris.pokedex_clone.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -11,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.faris.pokedex_clone.R
 import com.faris.pokedex_clone.adapter.PokemonListAdapter
 import com.faris.pokedex_clone.util.Const.Companion.POKEMON_ID
+import com.faris.pokedex_clone.util.getPokemonId
 import com.faris.pokedex_clone.viewModel.MainActivityViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         adapter.evenHolder.onClick.observe(this, Observer {
             val intent = Intent(this, PokemonActivity::class.java)
-            intent.putExtra(POKEMON_ID, it.name)
+            intent.putExtra(POKEMON_ID, it.url.getPokemonId())
             startActivity(intent)
         })
 
