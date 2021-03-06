@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.faris.pokedex_clone.R
-import com.faris.pokedex_clone.adapter.AbilitiesListAdapter
 import com.faris.pokedex_clone.databinding.ItemAbilityBinding
 import com.faris.pokedex_clone.network.model.response.AbilityResponseModel
+import com.faris.pokedex_clone.util.EventHolder
 
 /**
  * Created by farisjakpau on 06/03/2021.
@@ -24,7 +24,7 @@ class AbilityViewHolder (private val itemAbilityBinding: ItemAbilityBinding) :Re
         }
     }
 
-    fun bindTo(ability: AbilityResponseModel, evenHolder:AbilitiesListAdapter.EvenHolder) {
+    fun bindTo(ability: AbilityResponseModel, evenHolder: EventHolder<AbilityResponseModel>) {
         itemAbilityBinding.ability = ability.ability?.name
         itemAbilityBinding.isHidden = ability.is_hidden
 

@@ -6,9 +6,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.faris.pokedex_clone.R
-import com.faris.pokedex_clone.adapter.PokemonListAdapter
 import com.faris.pokedex_clone.databinding.ItemPokemonBinding
 import com.faris.pokedex_clone.network.model.response.BaseResponseModel
+import com.faris.pokedex_clone.util.EventHolder
 import com.faris.pokedex_clone.util.getImageLink
 import com.faris.pokedex_clone.util.getPokemonId
 
@@ -28,12 +28,12 @@ class PokemonViewHolder(private val itemPokemonBinding: ItemPokemonBinding) :
         }
     }
 
-    fun bindTo(baseResponseModel: BaseResponseModel, eventHolder: PokemonListAdapter.EventHolder) {
+    fun bindTo(baseResponseModel: BaseResponseModel, eventHolder: EventHolder<BaseResponseModel>) {
         itemPokemonBinding.name = baseResponseModel.name
 
         Glide.with(itemView.context)
-                .load(getImageLink(baseResponseModel.url.getPokemonId()))
-                .into(itemPokemonBinding.ivPokemon)
+            .load(getImageLink(baseResponseModel.url.getPokemonId()))
+            .into(itemPokemonBinding.ivPokemon)
 
         itemPokemonBinding.llRoot.setOnClickListener {
             eventHolder.onClick.postValue(baseResponseModel)
