@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="ability"
+            type="String" />
+
+        <variable
+            name="isHidden"
+            type="Boolean" />
+
+    </data>
+    <LinearLayout
+        android:id="@+id/ll_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
+            android:background="@color/red"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:visibility="@{isHidden ? View.VISIBLE : View.GONE}"
+            android:text="Hidden"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:background="@color/silver"
+            android:textColor="@color/black"
+            android:text="@{ability}"/>
+
+    </LinearLayout>
+
+
+</layout>

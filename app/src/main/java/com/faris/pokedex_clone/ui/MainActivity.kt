@@ -1,5 +1,6 @@
 package com.faris.pokedex_clone.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.faris.pokedex_clone.R
 import com.faris.pokedex_clone.adapter.PokemonListAdapter
+import com.faris.pokedex_clone.util.Const.Companion.POKEMON_ID
 import com.faris.pokedex_clone.viewModel.MainActivityViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -38,7 +40,9 @@ class MainActivity : AppCompatActivity() {
         isLoading = true
 
         adapter.evenHolder.onClick.observe(this, Observer {
-            Toast.makeText(this, "${it.name}", Toast.LENGTH_LONG).show()
+            val intent = Intent(this, PokemonActivity::class.java)
+            intent.putExtra(POKEMON_ID, it.name)
+            startActivity(intent)
         })
 
         rv_pokemon.addOnScrollListener(object : RecyclerView.OnScrollListener() {

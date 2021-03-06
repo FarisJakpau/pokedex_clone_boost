@@ -1,5 +1,9 @@
 package com.faris.pokedex_clone.util
 
+import android.graphics.drawable.GradientDrawable
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+
 /**
  * Created by FarisJakpau on 5/03/2021
  *
@@ -21,4 +25,12 @@ fun String?.getPokemonId(): String {
  */
 fun getImageLink(pokemonId: String): String {
     return Const.BASE_API_IMAGE_URL + pokemonId + ".png"
+}
+
+fun ImageView?.setImageUrl(url:String) {
+    this?.let {
+        Glide.with(it.context)
+            .load(url)
+            .into(this)
+    }
 }

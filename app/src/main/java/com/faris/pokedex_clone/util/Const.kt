@@ -9,5 +9,7 @@ class Const {
         const val API_URL = "https://pokeapi.co/api/v2/"
         const val BASE_API_IMAGE_URL =
             "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"
+
+        const val POKEMON_ID = "POKEMON_ID"
     }
 }
