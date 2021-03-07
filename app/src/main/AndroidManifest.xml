@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.PokemonActivity"/>
+        <activity android:name=".ui.FavouriteActivity" />
     </application>
 
 </manifest>

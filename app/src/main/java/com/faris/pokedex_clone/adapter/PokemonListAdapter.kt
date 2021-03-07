@@ -34,4 +34,10 @@ class PokemonListAdapter(var pokemonList: ArrayList<BaseResponseModel>?) :
             notifyItemRangeChanged(tempSize, tempSize + it.size)
         }
     }
+
+    fun resetAndUpdateList(pokemonList: List<BaseResponseModel>?) {
+        this.pokemonList?.clear()
+        pokemonList?.let { this.pokemonList?.addAll(it) }
+        notifyDataSetChanged()
+    }
 }

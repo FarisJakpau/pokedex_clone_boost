@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Pokedex_Clone</string>
     <string name="error_message">Pokemon Error</string>
+    <string name="favourite_page">Favourite</string>
+    <string name="add_to_favourite">Add favourite</string>
+    <string name="remove_favourite">Remove Favourite</string>
 </resources>

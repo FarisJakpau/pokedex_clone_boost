@@ -64,5 +64,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+
+        fab_favourite.setOnClickListener {
+            startActivity(Intent(this, FavouriteActivity::class.java))
+        }
     }
 }

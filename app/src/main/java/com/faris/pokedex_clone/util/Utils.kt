@@ -1,6 +1,5 @@
 package com.faris.pokedex_clone.util
 
-import android.graphics.drawable.GradientDrawable
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 
@@ -14,10 +13,17 @@ import com.bumptech.glide.Glide
  * ex: https://pokeapi.co/api/v2/pokemon/3/
  * split '/' from the url
  * will return 3
+ * if split.size == 1, will return return index 0
  */
 fun String?.getPokemonId(): String {
     val splitText = this?.trim()?.split("/")
-    return splitText?.get(splitText.size - 2).toString()
+
+    splitText?.let {
+        if (it.size > 1)
+            return it[it.size - 2]
+        return it[0]
+    }
+    return this.toString()
 }
 
 /**

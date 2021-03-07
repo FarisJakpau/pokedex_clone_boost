@@ -5,7 +5,6 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -126,10 +125,10 @@ class PokemonActivity : AppCompatActivity() {
                 favouriteList?.addAll(it)
 
                 isFavourite = favouriteList?.any { it.id == pokemonId?.toInt() } ?: false
-                if (isFavourite) {
-                    btn_favourite.text = "UNFav"
-                } else btn_favourite.text = "FAVOURITE"
-                Toast.makeText(this@PokemonActivity, "$isFavourite", Toast.LENGTH_LONG).show()
+                if (isFavourite)
+                    btn_favourite.text = getString(R.string.remove_favourite)
+                else
+                    btn_favourite.text = getString(R.string.add_to_favourite)
             })
         }
     }
