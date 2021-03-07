@@ -3,6 +3,7 @@ package com.faris.pokedex_clone.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -59,6 +60,15 @@ class FavouriteActivity : AppCompatActivity() {
                     pokemonList.add(tempModel)
                 }
                 adapter?.resetAndUpdateList(pokemonList)
+
+                if (pokemonList.size == 0) {
+                    Toast.makeText(
+                        this@FavouriteActivity,
+                        getString(R.string.no_favourite),
+                        Toast.LENGTH_LONG
+                    ).show()
+                    onBackPressed()
+                }
             })
         }
     }

@@ -4,4 +4,11 @@
     <string name="favourite_page">Favourite</string>
     <string name="add_to_favourite">Add favourite</string>
     <string name="remove_favourite">Remove Favourite</string>
+    <string name="no_favourite">No favourite pokemon found</string>
+    <string name="in_dept_effect">In-Dept Effect</string>
+    <string name="effect">Effect</string>
+    <string name="game_description">Game Description</string>
+    <string name="ability">Ability</string>
+    <string name="add_fav_response">Pokemon added to favourite</string>
+    <string name="remove_fav_response">Pokemon remove from favourite</string>
 </resources>

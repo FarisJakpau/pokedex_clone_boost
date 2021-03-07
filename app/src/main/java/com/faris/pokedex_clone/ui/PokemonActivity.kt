@@ -101,8 +101,11 @@ class PokemonActivity : AppCompatActivity() {
         })
 
         btn_favourite.setOnClickListener {
-            if (isFavourite) deleteFavourite(FavouriteModel(pokemonId?.toInt(), pokemonName))
-            else insertFavourite(FavouriteModel(pokemonId?.toInt(), pokemonName))
+            if (isFavourite) {
+                deleteFavourite(FavouriteModel(pokemonId?.toInt(), pokemonName))
+            } else {
+                insertFavourite(FavouriteModel(pokemonId?.toInt(), pokemonName))
+            }
         }
 
     }
@@ -110,7 +113,11 @@ class PokemonActivity : AppCompatActivity() {
     private fun insertFavourite(favouriteModel: FavouriteModel) {
         CoroutineScope(Dispatchers.Main).launch {
             viewModel?.insertFavourite(favouriteModel).also {
-
+                Toast.makeText(
+                    this@PokemonActivity,
+                    getString(R.string.add_fav_response),
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
@@ -118,6 +125,11 @@ class PokemonActivity : AppCompatActivity() {
     private fun deleteFavourite(favouriteModel: FavouriteModel) {
         CoroutineScope(Dispatchers.Main).launch {
             viewModel?.deleteFavourite(favouriteModel).also {
+                Toast.makeText(
+                    this@PokemonActivity,
+                    getString(R.string.remove_fav_response),
+                    Toast.LENGTH_LONG
+                ).show()
                 getAllFavouritePokemon()
             }
         }
@@ -138,6 +150,9 @@ class PokemonActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * To detect any touch and close Bottom Sheet view
+     */
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         if (ev?.action != null) {
             if (bottomSheetBehaviour?.state == BottomSheetBehavior.STATE_EXPANDED) {
