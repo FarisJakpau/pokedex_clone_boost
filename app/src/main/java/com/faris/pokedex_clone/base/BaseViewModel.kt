@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +24,10 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
         get() = parentJob + Dispatchers.Default
     protected val scope = CoroutineScope(coroutineContext)
 
+    val errorResponse: MutableLiveData<String> = MutableLiveData()
+
     protected val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
+        errorResponse.postValue(throwable.message)
         Log.e("Error", "${throwable.message}")
     }
 

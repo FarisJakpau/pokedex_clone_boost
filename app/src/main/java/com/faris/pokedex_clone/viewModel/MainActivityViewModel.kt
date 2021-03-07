@@ -25,7 +25,7 @@ class MainActivityViewModel(application: Application) : BaseViewModel(applicatio
                     pokemonListResponse.postValue(result.data)
                 }
                 is ApiResultHandler.Error -> {
-
+                    errorResponse.postValue(result.exception.message)
                 }
             }
         }

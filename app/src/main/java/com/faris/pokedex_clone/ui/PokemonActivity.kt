@@ -5,6 +5,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -67,6 +68,10 @@ class PokemonActivity : AppCompatActivity() {
             adapter.updateData(it.abilities as ArrayList<AbilityResponseModel>)
             rv_abilities.layoutManager = LinearLayoutManager(this)
             rv_abilities.adapter = adapter
+        })
+
+        viewModel?.errorResponse?.observe(this, Observer {
+            Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
         })
 
         getAllFavouritePokemon()

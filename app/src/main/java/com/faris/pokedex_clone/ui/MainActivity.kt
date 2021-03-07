@@ -2,6 +2,7 @@ package com.faris.pokedex_clone.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -32,9 +33,14 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
         viewModel?.getPokemonList(LIMIT_POKEMON, offset)
+
         viewModel?.pokemonListResponse?.observe(this, Observer {
             isLoading = true
             adapter.updateList(it.results)
+        })
+
+        viewModel?.errorResponse?.observe(this, Observer {
+            Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
         })
 
         isLoading = true

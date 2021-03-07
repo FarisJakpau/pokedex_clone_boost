@@ -16,7 +16,7 @@ class PokemonRepository(private val api: PokemonAPI) : BaseRepository() {
     suspend fun getPokemon(pokemonId: String?): ApiResultHandler<PokemonResponseModel> {
         return safeApiCall(
                 call = { api.getPokemon(pokemonId).await() },
-            errorMessage = "error"
+            errorMessage = "Error Get Pokemon"
         )
     }
 
@@ -26,14 +26,14 @@ class PokemonRepository(private val api: PokemonAPI) : BaseRepository() {
     ): ApiResultHandler<PokemonListResponseModel> {
         return safeApiCall(
             call = { api.getPokemonList(limit, offset).await() },
-            errorMessage = "error Pokemon List"
+            errorMessage = "Error Get Pokemon List"
         )
     }
 
     suspend fun getPokemonAbility(abilityId: String?): ApiResultHandler<AbilityDetailResponseModel> {
         return safeApiCall(
             call = { api.getPokemonAbility(abilityId).await() },
-            errorMessage = "error"
+            errorMessage = "Error Get Pokemon Ability"
         )
     }
 }

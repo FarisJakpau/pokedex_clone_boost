@@ -41,7 +41,7 @@ class PokemonActivityViewModel (application:Application) : BaseViewModel(applica
                 }
 
                 is ApiResultHandler.Error -> {
-
+                    errorResponse.postValue(result.exception.message)
                 }
             }
         }
@@ -54,7 +54,7 @@ class PokemonActivityViewModel (application:Application) : BaseViewModel(applica
                     pokemonAbilityResponse.postValue(result.data)
                 }
                 is ApiResultHandler.Error -> {
-
+                    errorResponse.postValue(result.exception.message)
                 }
             }
         }
