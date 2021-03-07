@@ -1,7 +1,14 @@
 package com.faris.pokedex_clone.util
 
+import android.app.Activity
+import android.graphics.Color
+import android.graphics.Typeface
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.faris.pokedex_clone.R
 
 /**
  * Created by FarisJakpau on 5/03/2021
@@ -33,10 +40,31 @@ fun getImageLink(pokemonId: String): String {
     return Const.BASE_API_IMAGE_URL + pokemonId + ".png"
 }
 
-fun ImageView?.setImageUrl(url:String) {
+fun ImageView?.setImageUrl(url: String) {
     this?.let {
         Glide.with(it.context)
             .load(url)
             .into(this)
+    }
+}
+
+fun pokemonTypeTextview(
+    activity: Activity,
+    pokemonType: String,
+    backgroundColor: String
+): TextView {
+    return TextView(activity).apply {
+        layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        ).apply {
+            setMargins(10, 10, 10, 10)
+            setPadding(10, 10, 10, 10)
+        }
+        text = pokemonType
+        textSize = 18F
+        setTextColor(ContextCompat.getColor(activity, R.color.white))
+        setBackgroundColor(Color.parseColor(backgroundColor))
+        typeface = Typeface.defaultFromStyle(Typeface.BOLD)
     }
 }

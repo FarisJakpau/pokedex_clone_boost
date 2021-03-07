@@ -17,6 +17,7 @@ import com.faris.pokedex_clone.localDb.model.FavouriteModel
 import com.faris.pokedex_clone.network.model.response.AbilityResponseModel
 import com.faris.pokedex_clone.util.Const.Companion.POKEMON_ID
 import com.faris.pokedex_clone.util.getImageLink
+import com.faris.pokedex_clone.util.pokemonTypeTextview
 import com.faris.pokedex_clone.util.setImageUrl
 import com.faris.pokedex_clone.viewModel.PokemonActivityViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -68,6 +69,18 @@ class PokemonActivity : AppCompatActivity() {
             adapter.updateData(it.abilities as ArrayList<AbilityResponseModel>)
             rv_abilities.layoutManager = LinearLayoutManager(this)
             rv_abilities.adapter = adapter
+
+            it?.types?.forEach {
+                val pokemonEnum = PokemonTypeEnum.values().find { enum ->
+                    enum.type == it.type?.name
+                }
+                val pokemonTypeView = pokemonTypeTextview(
+                    this,
+                    pokemonEnum?.type.toString(),
+                    pokemonEnum?.colorCode.toString()
+                )
+                ll_pokemon_type.addView(pokemonTypeView)
+            }
         })
 
         viewModel?.errorResponse?.observe(this, Observer {

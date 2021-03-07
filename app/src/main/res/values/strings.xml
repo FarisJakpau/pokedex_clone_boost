@@ -11,4 +11,5 @@
     <string name="ability">Ability</string>
     <string name="add_fav_response">Pokemon added to favourite</string>
     <string name="remove_fav_response">Pokemon remove from favourite</string>
+    <string name="hidden_ability">Hidden</string>
 </resources>
