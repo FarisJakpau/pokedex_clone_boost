@@ -51,6 +51,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         })
 
+        /**
+         * implement infinite scroll for pokemon list
+         */
         rv_pokemon.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)

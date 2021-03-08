@@ -5,6 +5,9 @@ package com.faris.pokedex_clone.util
  * Pokedex_Clone.
  */
 
+/**
+ * this class is use for handle onClick in ViewHolder
+ */
 class EventHolder<T> {
     val onClick: SingleLiveEvent<T> = SingleLiveEvent()
 }

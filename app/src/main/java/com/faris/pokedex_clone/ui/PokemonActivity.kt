@@ -67,8 +67,11 @@ class PokemonActivity : AppCompatActivity() {
             tv_name.text = it.species?.name
             pokemonName = it.name.toString()
 
+            /**
+             * return PokemonEnum based of pokemon type
+             */
             val pokemonType = PokemonTypeEnum.values()
-                    .find { enum -> enum.type == it?.types?.get(0)?.type?.name.toString() }
+                .find { enum -> enum.type == it?.types?.get(0)?.type?.name.toString() }
             ll_root.setBackgroundColor(Color.parseColor(pokemonType?.colorCode))
 
             abilityAdapter.updateData(it.abilities as ArrayList<AbilityResponseModel>)
@@ -80,9 +83,9 @@ class PokemonActivity : AppCompatActivity() {
                     enum.type == it.type?.name
                 }
                 val pokemonTypeView = pokemonTypeTextview(
-                        this,
-                        pokemonEnum?.type.toString(),
-                        pokemonEnum?.colorCode.toString()
+                    this,
+                    pokemonEnum?.type.toString(),
+                    pokemonEnum?.colorCode.toString()
                 )
                 ll_pokemon_type.addView(pokemonTypeView)
             }
@@ -106,6 +109,10 @@ class PokemonActivity : AppCompatActivity() {
         viewModel?.pokemonAbilityResponse?.observe(this, Observer {
             bottom_sheet.tv_name.text = it.name
 
+            /**
+             * from the api got multi translation,
+             * display only English translation
+             */
             it.flavor_text_entries?.forEach { flavourText ->
                 if (flavourText.language?.name == "en") {
                     bottom_sheet.tv_description.text = flavourText.flavor_text
@@ -173,7 +180,7 @@ class PokemonActivity : AppCompatActivity() {
     }
 
     /**
-     * To detect any touch and close Bottom Sheet view
+     * To detect any touch to close Bottom Sheet view
      */
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         if (ev?.action != null) {

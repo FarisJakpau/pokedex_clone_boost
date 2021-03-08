@@ -48,6 +48,10 @@ fun ImageView?.setImageUrl(url: String) {
     }
 }
 
+/**
+ * return Textview for pokemon type
+ * to be insert into LinearLayout
+ */
 fun pokemonTypeTextview(
     activity: Activity,
     pokemonType: String,

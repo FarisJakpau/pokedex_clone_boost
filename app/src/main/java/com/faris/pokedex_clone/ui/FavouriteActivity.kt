@@ -61,6 +61,9 @@ class FavouriteActivity : AppCompatActivity() {
                 }
                 adapter?.resetAndUpdateList(pokemonList)
 
+                /**
+                 * if no favourite pokemon added, will return to previous page
+                 */
                 if (pokemonList.size == 0) {
                     Toast.makeText(
                         this@FavouriteActivity,
@@ -73,6 +76,9 @@ class FavouriteActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * to refresh favourite data after back to this page
+     */
     override fun onRestart() {
         super.onRestart()
         getFavouritePokemon()
