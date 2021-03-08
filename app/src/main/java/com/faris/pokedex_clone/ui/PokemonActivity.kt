@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.MotionEvent
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -12,9 +13,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.faris.pokedex_clone.R
 import com.faris.pokedex_clone.adapter.AbilitiesListAdapter
+import com.faris.pokedex_clone.adapter.BaseStatsListAdapter
 import com.faris.pokedex_clone.enum.PokemonTypeEnum
 import com.faris.pokedex_clone.localDb.model.FavouriteModel
 import com.faris.pokedex_clone.network.model.response.AbilityResponseModel
+import com.faris.pokedex_clone.network.model.response.StatResponseModel
 import com.faris.pokedex_clone.util.Const.Companion.POKEMON_ID
 import com.faris.pokedex_clone.util.getImageLink
 import com.faris.pokedex_clone.util.pokemonTypeTextview
@@ -47,8 +50,9 @@ class PokemonActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pokemon)
 
+        loading.visibility = View.VISIBLE
         pokemonId = intent.extras?.getString(POKEMON_ID)
-        val adapter = AbilitiesListAdapter(ArrayList())
+        val abilityAdapter = AbilitiesListAdapter(ArrayList())
         bottomSheetBehaviour = BottomSheetBehavior.from(bottom_sheet)
 
         viewModel = ViewModelProviders.of(this)[PokemonActivityViewModel::class.java]
@@ -58,29 +62,34 @@ class PokemonActivity : AppCompatActivity() {
         }
 
         viewModel?.pokemonResponse?.observe(this, Observer {
+            loading.visibility = View.GONE
             iv_pokemon.setImageUrl(getImageLink(it.id.toString()))
             tv_name.text = it.species?.name
             pokemonName = it.name.toString()
 
             val pokemonType = PokemonTypeEnum.values()
-                .find { enum -> enum.type == it?.types?.get(0)?.type?.name.toString() }
+                    .find { enum -> enum.type == it?.types?.get(0)?.type?.name.toString() }
             ll_root.setBackgroundColor(Color.parseColor(pokemonType?.colorCode))
 
-            adapter.updateData(it.abilities as ArrayList<AbilityResponseModel>)
+            abilityAdapter.updateData(it.abilities as ArrayList<AbilityResponseModel>)
             rv_abilities.layoutManager = LinearLayoutManager(this)
-            rv_abilities.adapter = adapter
+            rv_abilities.adapter = abilityAdapter
 
             it?.types?.forEach {
                 val pokemonEnum = PokemonTypeEnum.values().find { enum ->
                     enum.type == it.type?.name
                 }
                 val pokemonTypeView = pokemonTypeTextview(
-                    this,
-                    pokemonEnum?.type.toString(),
-                    pokemonEnum?.colorCode.toString()
+                        this,
+                        pokemonEnum?.type.toString(),
+                        pokemonEnum?.colorCode.toString()
                 )
                 ll_pokemon_type.addView(pokemonTypeView)
             }
+
+            val baseStatAdapter = BaseStatsListAdapter(it.stats as ArrayList<StatResponseModel>)
+            rv_base_stat.layoutManager = LinearLayoutManager(this)
+            rv_base_stat.adapter = baseStatAdapter
         })
 
         viewModel?.errorResponse?.observe(this, Observer {
@@ -89,7 +98,7 @@ class PokemonActivity : AppCompatActivity() {
 
         getAllFavouritePokemon()
 
-        adapter.evenHolder.onClick.observe(this, Observer {
+        abilityAdapter.evenHolder.onClick.observe(this, Observer {
             bottomSheetBehaviour?.state = BottomSheetBehavior.STATE_EXPANDED
             viewModel?.getPokemonAbility(it?.ability?.name)
         })

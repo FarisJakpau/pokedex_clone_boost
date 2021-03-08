@@ -9,6 +9,7 @@
     <string name="effect">Effect</string>
     <string name="game_description">Game Description</string>
     <string name="ability">Ability</string>
+    <string name="base_stats">Base Stats</string>
     <string name="add_fav_response">Pokemon added to favourite</string>
     <string name="remove_fav_response">Pokemon remove from favourite</string>
     <string name="hidden_ability">Hidden</string>

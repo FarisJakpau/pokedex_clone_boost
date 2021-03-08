@@ -22,5 +22,3 @@ data class PokemonResponseModel(
         val types: List<TypeResponseModel>?,
         val weight: Int?
 )
-
-//past_types and held_items need to get model example
