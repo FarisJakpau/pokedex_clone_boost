@@ -49,8 +49,6 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    testImplementation "org.mockito:mockito-inline:$mockito_version"
-    testImplementation 'android.arch.core:core-testing:1.1.1'
     // Android Lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycler_owner"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
