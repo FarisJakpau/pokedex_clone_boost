@@ -26,6 +26,10 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
 
     val errorResponse: MutableLiveData<String> = MutableLiveData()
 
+    /**
+     * this exception handle used for error handling
+     * in every Api call.
+     */
     protected val exceptionHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
         errorResponse.postValue(throwable.message)
         Log.e("Error", "${throwable.message}")
