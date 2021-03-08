@@ -19,3 +19,4 @@ Pokedex clone app for Boost challenge
 
 #### Data source
 https://pokeapi.co/
+
